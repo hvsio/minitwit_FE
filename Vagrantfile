@@ -6,7 +6,7 @@
 Vagrant.configure("2") do |config|
     config.vm.box = 'digital_ocean'
     config.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-    config.ssh.private_key_path = '~/.ssh/id_rsa'
+    config.ssh.private_key_path = '~/.ssh/minitwit'
     config.vm.synced_folder ".", "/vagrant", type: "rsync"
   
     config.vm.define "minitwit", primary: true do |server|
@@ -41,10 +41,10 @@ Vagrant.configure("2") do |config|
         sudo apt install docker-ce -y
 
         #install node
-        sudo apt-get install nodejs
+        sudo apt install nodejs
 
         #install npm
-        sudo apt-get install npm
+        sudo apt install npm
 
         #install vue-cli
         sudo npm install -g vue-cli
