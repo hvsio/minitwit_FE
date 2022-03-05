@@ -40,18 +40,20 @@ Vagrant.configure("2") do |config|
         #there is a bug with this command, you have to run it twice, for some reason it fails the first time
         sudo apt install docker-ce -y
 
-        #install node
-        sudo apt install nodejs
+        # install node and npm according to https://github.com/npm/cli/issues/681#issuecomment-846438958
+        sudo npm install -g n
+        sudo n latest
+        hash -d npm
 
-        #install npm
-        sudo apt install npm
+        #remove node_modules if any
+        rm -rf node_modules package-lock.json
 
         #install vue-cli
         sudo npm install -g vue-cli
 
         docker build -t minitwit_fe .
 
-        docker run -it -p 8080:8080 --rm --name minitwit_fe minitwit_fe
+        docker run -it -p 8080:80 -d --name minitwit_fe minitwit_fe
 
       SHELL
     end
