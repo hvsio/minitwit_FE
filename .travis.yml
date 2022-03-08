@@ -26,6 +26,7 @@ jobs:
       script: "ssh -o \"StrictHostKeyChecking no\" ${MT_USER}@${MT_SERVER} \\\n\
           \"docker stop minitwit_fe && \\\n\
           docker rm minitwit_fe && \\\n\
+          echo ${MT_SERVER}
           docker run -it -p 8080:80 -d --name minitwit_fe minitwit_fe\" \n"
       stage: deploy
 
