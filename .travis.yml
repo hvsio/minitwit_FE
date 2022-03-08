@@ -10,23 +10,21 @@ branch:
   only: 
     - main
 install: 
-  - "npm install"
   - "docker --version"
 jobs: 
   include: 
     - 
+      stage: docker_build
       name: "Build docker container"
       script: 
         - "echo \"BUILD\""
         - "docker build -t minitwit_fe ."
-      stage: docker_build
     - 
+      stage: deploy
       install: skip
       name: "Deploy on DO"
-      script: "ssh -o \"StrictHostKeyChecking no\" $MT_USER@$MT_SERVER \\\n\
-          \"docker stop minitwit_fe && \\\n\
-          docker rm minitwit_fe && \\\n\
-          echo $MT_SERVER
-          docker run -it -p 8080:80 -d --name minitwit_fe minitwit_fe\" \n"
-      stage: deploy
+      script: "ssh -o "StrictHostKeyChecking no" ${MT_USER}@${MT_SERVER} \
+          "docker stop minitwit_fe && \
+          docker rm minitwit_fe && \
+          docker run -it -p 8080:80 -d --name minitwit_fe minitwit_fe"
 
