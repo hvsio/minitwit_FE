@@ -1,4 +1,4 @@
-# minitwit_admin
+# minitwit_adminn
 
 ## Project setup
 ```
