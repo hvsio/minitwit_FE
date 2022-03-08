@@ -1,40 +1,34 @@
-language: node_js
-
-node_js:
-  - node
-
-branch:
+--- 
+before_install: 
+  - "openssl aes-256-cbc -K $encrypted_0ddd2445e49f_key -iv $encrypted_0ddd2445e49f_iv -in travis_rsa.enc -out travis_rsa -d"
+  - "chmod 600 ~/.ssh/travis_rsa"
+branch: 
   only: 
-  - main
-
-before_install:
-  - openssl aes-256-cbc -K $encrypted_0ddd2445e49f_key -iv $encrypted_0ddd2445e49f_iv -in travis_rsa.enc -out travis_rsa -d
-  - chmod 600 ~/.ssh/travis_rsa
-
-install:
-  - npm install
-  - docker --version
-
-stages:
+    - main
+install: 
+  - "npm install"
+  - "docker --version"
+jobs: 
+  include: 
+    - 
+      name: "Build docker container"
+      script: 
+        - "echo \"LOGIN\""
+        - "docker login -u $DOCKER_USERNAME -p $DOCKER_PSW"
+        - "echo \"BUILD\""
+        - "docker build -t minitwit_fe ."
+      stage: docker_build
+    - 
+      install: skip
+      name: "Deploy on DO"
+      script: "ssh -o \"StrictHostKeyChecking no\" ${MT_USER}@${MT_SERVER} \\\n\
+          \"docker stop minitwit_fe && \\\n\
+          docker rm minitwit_fe && \\\n\
+          docker run -it -p 8080:80 -d --name minitwit_fe minitwit_fe\" \n"
+      stage: deploy
+language: node_js
+node_js: 
+  - node
+stages: 
   - docker_build
   - deploy
-
-jobs:
-  include:
-  - stage: docker_build
-    name: "Build docker container"
-    script:
-      - echo "LOGIN"
-      - docker login -u $DOCKER_USERNAME -p $DOCKER_PSW
-      - echo "BUILD"
-      - docker build -t minitwit_fe .
-  - stage: deploy
-    name: "Deploy on DO"
-    install: skip
-     script: |
-        ssh -o "StrictHostKeyChecking no" ${MT_USER}@${MT_SERVER} \
-        "docker stop minitwit_fe && \
-        docker rm minitwit_fe && \
-        docker run -it -p 8080:80 -d --name minitwit_fe minitwit_fe" 
-
-
