@@ -3,7 +3,7 @@ node_js:
   - node
 stages: 
   - docker_build
-  - deploy
+ # - deploy
 before_install: 
   - openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv -in deploy_rsaclee.enc -out /tmp/git_deploy_key -d
   # Make sure only the current user can read the private key
@@ -27,12 +27,12 @@ jobs:
       script: 
         - "echo \"BUILD\""
         - "docker build -t minitwit_fe ."
-    - 
-      stage: deploy
-      install: skip
-      name: "Deploy on DO"
-      script: |
-          ssh -o "StrictHostKeyChecking no" ${MT_USER}@${MT_SERVER} \
-          "docker stop minitwit_fe && \
-          docker rm minitwit_fe && \
-          docker run -it -p 8080:80 -d --name minitwit_fe minitwit_fe"
+   # - 
+  #    stage: deploy
+  #    install: skip
+  #    name: "Deploy on DO"
+ #     script: |
+  #        ssh -o "StrictHostKeyChecking no" ${MT_USER}@${MT_SERVER} \
+   #       "docker stop minitwit_fe && \
+    #      docker rm minitwit_fe && \
+     #     docker run -it -p 8080:80 -d --name minitwit_fe minitwit_fe"
