@@ -5,7 +5,7 @@ stages:
   - docker_build
   - deploy
 before_install: 
-  - "openssl aes-256-cbc -K $encrypted_0ddd2445e49f_key -iv $encrypted_0ddd2445e49f_iv -in travis_rsa.enc -out /tmp/git_deploy_key -d"
+  - "openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv -in deploy_rsaclee.enc -out /tmp/git_deploy_key -d"
   # Make sure only the current user can read the private key
   - chmod 600 /tmp/git_deploy_key
   # Create a script to return the passphrase environment variable to ssh-add
