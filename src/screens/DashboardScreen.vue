@@ -8,6 +8,7 @@
 import TwitListComponent from "@/components/TwitListComponent.vue";
 import { useColors } from "vuestic-ui";
 import { computed, inject } from "vue";
+import { useFollowers } from "../compositionStore/index"
 
 export default {
   name: "DashboardScreen",
@@ -18,6 +19,7 @@ export default {
   setup() {
     const store = inject("store");
     const { getColors } = useColors();
+    const { followUser } = useFollowers();
     const colors = computed(() => getColors());
     const twitList = computed(() => store.twits.state.twitList);
     
@@ -30,7 +32,7 @@ export default {
     }
     
     const handleOnFollowClick = (userId) => {
-      flagTwit(twit.messageId, twit.flagged)
+      followUser(userId)
     }
 
     getTwitList();
