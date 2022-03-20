@@ -1,4 +1,4 @@
-import { readonly, reactive, computed } from 'vue'
+import { reactive, computed } from 'vue'
 import twitsApi from '@/api/twits/twits.js'
 
 const state = reactive({
@@ -93,19 +93,29 @@ const actions = {
 }
 
 const getPrivateTwitList = () => computed(() => state.usersTwitList)
+const getTwitList = () => computed(() =>state.twitList)
+const getCurrentTwitPage = () => computed(() => state.currentPage)
+const fetchTwitList = () => actions.getTwitList()
 const fetchPrivateTwitList = (userId) => actions.getUsersTwitList(userId)
 const flagTwit = (messageId, flagged) => actions.toggleFlag(messageId, flagged)
+const addTwit = (twitData) => actions.addTwit(twitData)
 
 export {
+    getTwitList,
     getPrivateTwitList,
+    fetchTwitList,
     fetchPrivateTwitList,
-    flagTwit
+    addTwit,
+    flagTwit,
+    getCurrentTwitPage
 }
 
 export default {
-    state: readonly(state),
+    getTwitList,
     actions: readonly(actions),
     getPrivateTwitList,
+    fetchTwitList,
     fetchPrivateTwitList,
-    flagTwit
+    flagTwit,
+    getCurrentTwitPage
 }
