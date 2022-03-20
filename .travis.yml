@@ -3,7 +3,6 @@ node_js:
   - node
 stages: 
   - docker_build
-  - release
   - deploy
 before_install: 
   - openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv -in deploy_rsa.enc -out /tmp/git_deploy_key -d
@@ -25,15 +24,6 @@ jobs:
       script: 
         - "echo \"BUILD\""
         - "docker build -t minitwit_fe ."
-    -
-      stage: release
-      api_key: $TRAVIS_FRONTEND_OAUTH_KEY
-      name: "Build $(date +'%d.%m.%Y %R')"
-      file: "minitwit_FE/*"
-      skip_cleanup: true
-      draft: true
-      on:
-        tags: true
     - 
       stage: deploy
       install: skip
@@ -43,3 +33,13 @@ jobs:
           "docker stop minitwit_fe && \
           docker rm minitwit_fe && \
           docker run -it -p 8080:80 -d --name minitwit_fe minitwit_fe"
+          
+deploy:
+    provider: releases
+    api_key: $TRAVIS_FRONTEND_OAUTH_KEY
+    name: "Build $(date +'%d.%m.%Y %R')"
+    file: "minitwit_FE/*"
+    skip_cleanup: true
+    draft: true
+    on:
+      tags: true
