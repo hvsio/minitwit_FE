@@ -15,12 +15,13 @@ before_install:
   # Add the key to the authentication agent
   - DISPLAY=":0.0" SSH_ASKPASS="/tmp/askpass" setsid ssh-add /tmp/git_deploy_key </dev/null
 branch: 
-  only: 
+  only:
     - main
 install: 
   - "docker --version"
 jobs: 
-  include: 
+  include:
+    - if: (branch = master) AND (tag IS present)
     - 
       stage: docker_build
       name: "Build docker container"
@@ -36,3 +37,13 @@ jobs:
           "docker stop minitwit_fe && \
           docker rm minitwit_fe && \
           docker run -it -p 8080:80 -d --name minitwit_fe minitwit_fe"
+
+deploy:
+    provider: releases
+    api_key: $TRAVIS_FRONTEND_OAUTH_KEY
+    name: "Build $(date +'%d.%m.%Y %R')"
+    file: "minitwit_FE/*"
+    skip_cleanup: true
+    on:
+      branch: main
+      tags: true
