@@ -40,12 +40,11 @@
         </va-list-item-section>
       </va-list-item>
     </va-list>
-    <va-pagination v-model="value" :pages="20" size="large" color="black" input v-if="isPaged" />
+    <va-pagination :pages="20" size="large" color="black" input v-if="isPaged" />
   </div>
 </template>
 
 <script>
-import { inject } from "vue";
 import { useFollowers, useUsers } from "@/compositionStore/index"
 
 export default {
@@ -105,7 +104,6 @@ export default {
   components: {},
   emits: ["onClick"],
   setup(props, context) {
-    const store = inject("store");
     const { getFollowers } = useFollowers();
     const { getLoggedInUser } = useUsers();
     const followers = getFollowers();
