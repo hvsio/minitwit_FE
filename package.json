@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "test": "echo Done",
     "serve": "vue-cli-service serve",
     "serve-local": "vue-cli-service serve --mode local",
     "serve-prod": "vue-cli-service serve --mode production",
