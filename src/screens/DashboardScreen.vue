@@ -1,6 +1,6 @@
 <template>
   <div id="DashboardScreen">
-    <twit-list-component :items="twitList" :height="'100%'" @onClick="handleOnTwitClick" @onFollowClick="handleOnFollowClick"/>
+    <twit-list-component :items="twitList.tweets" :isPaged=true :height="'100%'" @onClick="handleOnTwitClick" @onFollowClick="handleOnFollowClick"/>
   </div>
 </template>
 

@@ -40,6 +40,7 @@
         </va-list-item-section>
       </va-list-item>
     </va-list>
+    <va-pagination v-model="value" :pages="20" size="large" color="black" input v-if="isPaged" />
   </div>
 </template>
 
@@ -95,6 +96,11 @@ export default {
       required: false,
       default: "12px",
     },
+    isPaged: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
   },
   components: {},
   emits: ["onClick"],
