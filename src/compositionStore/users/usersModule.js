@@ -46,17 +46,20 @@ const actions = {
 const enforceLoggedUser = (id) => mutations.loginUser(id)
 const getLoggedInUser = () => computed(() => state.loggedUser)
 const logoutUser = () => mutations.logoutUser()
+const loginUser = (userData) => actions.loginUser(userData)
+const registerUser = (userData) => actions.registerUser(userData)
 
 export {
+    loginUser,
+    registerUser,
     getLoggedInUser,
     logoutUser,
     enforceLoggedUser
 }
 
 export default {
-    state: readonly(state),
-    mutations: readonly(mutations),
-    actions: readonly(actions),
+    loginUser,
+    registerUser,
     getLoggedInUser,
     logoutUser,
     enforceLoggedUser
