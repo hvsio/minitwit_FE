@@ -33,13 +33,13 @@ jobs:
           "docker stop minitwit_fe && \
           docker rm minitwit_fe && \
           docker run -it -p 8080:80 -d --name minitwit_fe minitwit_fe"
-          
+
 deploy:
     provider: releases
     api_key: $TRAVIS_FRONTEND_OAUTH_KEY
     name: "Build $(date +'%d.%m.%Y %R')"
     file: "minitwit_FE/*"
     skip_cleanup: true
-    draft: true
     on:
       tags: true
+      all_branches: true
