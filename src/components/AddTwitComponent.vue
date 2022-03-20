@@ -12,21 +12,17 @@
     </div>
 </template>
 <script>
-import { computed, inject } from "vue";
-import { useTwits } from "@/compositionStore/index"
+import { useTwits, useUsers } from "@/compositionStore/index"
 
 export default {
     name: "AddTwitComponent",
     props: {},
     setup() {
-        const store = inject("store");
         const { addTwit } = useTwits()
-
-        // computed
-        const loggedUser = computed(() => store.users.state.loggedUser);
+        const { getLoggedInUser } = useUsers()
 
         return { 
-            loggedUser,
+            loggedUser: getLoggedInUser(),
             addTwit
         }
         
