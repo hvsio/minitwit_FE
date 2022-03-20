@@ -7,8 +7,8 @@
 <script>
 import TwitListComponent from "@/components/TwitListComponent.vue";
 import { useColors } from "vuestic-ui";
-import { computed, inject } from "vue";
-import { useFollowers } from "../compositionStore/index"
+import { computed } from "vue";
+import { useFollowers, useTwits } from "../compositionStore/index"
 
 export default {
   name: "DashboardScreen",
@@ -17,16 +17,11 @@ export default {
     TwitListComponent,
   },
   setup() {
-    const store = inject("store");
     const { getColors } = useColors();
     const { followUser } = useFollowers();
+    const { getTwitList, flagTwit, fetchTwitList } = useTwits()
     const colors = computed(() => getColors());
-    const twitList = computed(() => store.twits.state.twitList);
     
-    const getTwitList = () => store.twits.actions.getTwitList();
-    const flagTwit = (messageId, flagged) => {
-      store.twits.actions.toggleFlag(messageId, flagged)
-    }
     const handleOnTwitClick = (twit) => {
       flagTwit(twit.messageId, twit.flagged)
     }
@@ -35,10 +30,10 @@ export default {
       followUser(userId)
     }
 
-    getTwitList();
+    fetchTwitList();
     return {
       colors,
-      twitList,
+      twitList: getTwitList(),
       handleOnTwitClick,
       handleOnFollowClick
     };
