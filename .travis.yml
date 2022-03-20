@@ -31,7 +31,6 @@ jobs:
       name: "Build $(date +'%d.%m.%Y %R')"
       file: "minitwit_FE/*"
       skip_cleanup: true
-      draft: true
       on:
         tags: true
         all_branches: true
