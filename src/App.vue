@@ -49,7 +49,7 @@ export default {
     const useSidebarItems = () => {
       return [
         {
-          title: "Dashboard",
+          title: "Timeline",
           to: "/",
           visibleToLoggedUser: "always",
           function: (title) => selectSidebar(title),
@@ -81,7 +81,7 @@ export default {
     };
 
     const handleLogoutUser = () => {
-      selectSidebar("Dashboard");
+      selectSidebar("Timeline");
       logoutUser();
     };
 

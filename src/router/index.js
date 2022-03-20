@@ -7,7 +7,7 @@ const UserProfileScreen = () => import('@/screens/UserProfileScreen.vue')
 const routes = [
   {
     path: '/',
-    name: 'MiniTwit Admin',
+    name: 'MiniTwit',
     component: DashboardScreen
   },
   {
