@@ -3,6 +3,7 @@ node_js:
   - node
 stages: 
   - docker_build
+  - release
   - deploy
 before_install: 
   - openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv -in deploy_rsa.enc -out /tmp/git_deploy_key -d
@@ -14,9 +15,6 @@ before_install:
   - eval "$(ssh-agent -s)"
   # Add the key to the authentication agent
   - DISPLAY=":0.0" SSH_ASKPASS="/tmp/askpass" setsid ssh-add /tmp/git_deploy_key </dev/null
-branch: 
-  only: 
-    - main
 install: 
   - "docker --version"
 jobs: 
@@ -27,6 +25,16 @@ jobs:
       script: 
         - "echo \"BUILD\""
         - "docker build -t minitwit_fe ."
+    -
+      stage: release
+      api_key: $TRAVIS_FRONTEND_OAUTH_KEY
+      name: "Build $(date +'%d.%m.%Y %R')"
+      file: "minitwit_FE/*"
+      skip_cleanup: true
+      draft: true
+      on:
+        tags: true
+        all_branches: true
     - 
       stage: deploy
       install: skip
