@@ -2,7 +2,7 @@ import { reactive, computed } from "vue";
 
 const state = reactive({
   isSidebarMinimized: false,
-  selectedSidebarItem: "Dashboard"
+  selectedSidebarItem: "Timeline"
 });
 
 const mutations = {
