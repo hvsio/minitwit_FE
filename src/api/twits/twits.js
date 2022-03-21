@@ -1,7 +1,7 @@
 import { apiRequest } from "@/api/api.js";
 
-const fetchTwits = () => {
-    return apiRequest("GET", "api/twit/public-twits")
+const fetchTwits = (page, pageSize = 10) => {
+    return apiRequest("GET", `api/twit/public-twits?page=${page}&pageSize=${pageSize}`)
 };
 
 const fetchPersonalTwits = (userId) => {

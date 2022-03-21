@@ -20,6 +20,7 @@
         size="large"
         color="black"
         :visible-pages="3"
+        :disabled=isLoading
       />
     </div>
   </div>
@@ -44,7 +45,7 @@ export default {
     const { getLoading, setLoading, getError } = useAsync();
     const colors = computed(() => getColors());
 
-    const twitsPaged = getTwitList()
+    const twitsPaged = getTwitList();
 
     const handleOnTwitClick = (twit) => {
       flagTwit(twit.messageId, twit.flagged);
@@ -55,10 +56,10 @@ export default {
     };
 
     const handlePageChange = (page) => {
-      console.log("page changer clicked", page)
-    }
+      fetchTwitList(page)
+    };
 
-    fetchTwitList();
+    fetchTwitList(twitsPaged.page === undefined ? 1 : twitsPaged.page);
     return {
       colors,
       isLoading: getLoading(),
@@ -67,7 +68,7 @@ export default {
       twitsPaged,
       handleOnTwitClick,
       handleOnFollowClick,
-      handlePageChange
+      handlePageChange,
     };
   },
 };
@@ -83,14 +84,20 @@ export default {
   .content-list {
     display: flex;
     justify-content: center;
-    width: 100%
+    flex-grow: 2;
+  }
+
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
   }
 
   .content-pager {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    flex-grow: 1;
     padding-bottom: 12px;
   }
 }
