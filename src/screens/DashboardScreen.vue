@@ -1,7 +1,9 @@
 <template>
   <div id="DashboardScreen">
     <div class="content-list">
+      <va-progress-circle v-if="isLoading" indeterminate color="black"/>
       <twit-list-component
+        v-else
         :items="twitsPaged.tweets"
         :height="'100%'"
         @onClick="handleOnTwitClick"
@@ -18,7 +20,7 @@
 import TwitListComponent from "@/components/TwitListComponent.vue";
 import { useColors } from "vuestic-ui";
 import { computed } from "vue";
-import { useFollowers, useTwits } from "../compositionStore/index";
+import { useFollowers, useTwits, useAsync } from "../compositionStore/index";
 
 export default {
   name: "DashboardScreen",
@@ -30,6 +32,7 @@ export default {
     const { getColors } = useColors();
     const { followUser } = useFollowers();
     const { getTwitList, flagTwit, fetchTwitList } = useTwits();
+    const { getLoading, setLoading, getError } = useAsync()
     const colors = computed(() => getColors());
 
     const twitsPaged = getTwitList()
@@ -49,6 +52,9 @@ export default {
     fetchTwitList();
     return {
       colors,
+      isLoading: getLoading(),
+      setLoading,
+      error: getError(),
       twitsPaged,
       handleOnTwitClick,
       handleOnFollowClick,
@@ -68,7 +74,7 @@ export default {
   .content-list {
     display: flex;
     justify-content: center;
-    width: 100%;
+    width: 100%
   }
 
   .content-pager {

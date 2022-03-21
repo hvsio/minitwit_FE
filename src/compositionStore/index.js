@@ -1,4 +1,4 @@
-import { provide, inject, reactive, computed } from 'vue'
+import { provide, inject } from 'vue'
 import sidebar from '@/compositionStore/sidebar/sidebarModule'
 import async from '@/compositionStore/async/asyncModule'
 import twits from '@/compositionStore/twits/twitsModule'
@@ -27,10 +27,7 @@ export {
     useTwits,
     useUsers,
     useFollowers,
-    async,
-    twits,
-    users,
-    followers
+    async
 }
 
 export default {
@@ -40,8 +37,5 @@ export default {
     useTwits,
     useUsers,
     useFollowers,
-    async,
-    twits,
-    users,
-    followers
+    async
 }
