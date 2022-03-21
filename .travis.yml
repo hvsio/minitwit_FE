@@ -45,5 +45,4 @@ deploy:
     file: "minitwit_FE/*"
     skip_cleanup: true
     on:
-      branch: main
       tags: true
