@@ -1,7 +1,9 @@
 <template>
   <div id="DashboardScreen">
     <div class="content-list">
-      <va-progress-circle v-if="isLoading" indeterminate color="black"/>
+      <div class="progress-bar" v-if="isLoading">
+        <va-progress-circle indeterminate color="black" :thickness="0.2" size="large" />
+      </div>
       <twit-list-component
         v-else
         :items="twitsPaged.tweets"
@@ -32,7 +34,7 @@ export default {
     const { getColors } = useColors();
     const { followUser } = useFollowers();
     const { getTwitList, flagTwit, fetchTwitList } = useTwits();
-    const { getLoading, setLoading, getError } = useAsync()
+    const { getLoading, setLoading, getError } = useAsync();
     const colors = computed(() => getColors());
 
     const twitsPaged = getTwitList()
