@@ -21,7 +21,7 @@ install:
   - "docker --version"
 jobs: 
   include:
-    - if: (branch = master) AND (tag IS present)
+    - if: (branch = main) AND (tag IS present)
     - 
       stage: docker_build
       name: "Build docker container"
