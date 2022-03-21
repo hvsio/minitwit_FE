@@ -21,11 +21,12 @@ export default {
         const { addTwit } = useTwits()
         const { getLoggedInUser } = useUsers()
 
+        const submitTwit = (twitData) => addTwit(twitData)
+
         return { 
             loggedUser: getLoggedInUser(),
-            addTwit
+            submitTwit
         }
-        
     },
     methods: {
         async sendRequest() {
@@ -34,7 +35,7 @@ export default {
                 "AuthorId": this.loggedUser,
                 "Text": text
             };
-            await this.addTwit(twitData);
+            await this.submitTwit(twitData);
         }
     }
 }

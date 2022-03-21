@@ -22,7 +22,7 @@ const actions = {
     registerUser: async (userData) => {
         try {
             const res = await usersApi.registerUser(userData);
-            mutations.loginUser(res);
+            mutations.loginUser(res.userId);
         } catch (e) {
             console.error(e)
         }
@@ -30,12 +30,8 @@ const actions = {
 
     loginUser: async (userData) => {
         try {
-            const id = await usersApi.loginUser(userData)
-            if (!id || id == 0) {
-                store.async.actions.setError("Encountered errors while logging the user.")
-            } else {
-                mutations.loginUser(id)
-            }
+            const user = await usersApi.loginUser(userData)
+            mutations.loginUser(user.userId)
         } catch (e) {
             console.error(e)
             return e.response.data;

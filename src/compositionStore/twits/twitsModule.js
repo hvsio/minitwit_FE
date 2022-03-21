@@ -118,5 +118,6 @@ export default {
     getPrivateTwitList,
     fetchTwitList,
     fetchPrivateTwitList,
+    addTwit,
     flagTwit
 }
