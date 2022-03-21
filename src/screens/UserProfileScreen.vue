@@ -36,7 +36,6 @@ export default {
         const handleOnUnfollowClick = (item) => {
             unfollowUser(item.id)
         }
-
         const handleOnTwitClick = (twit) => {
             flagTwit(twit.messageId, twit.flagged)
         }
