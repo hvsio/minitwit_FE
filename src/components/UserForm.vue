@@ -20,7 +20,7 @@
     </div>
 </template>
 <script>
-import { computed, inject } from "vue";
+import { computed } from "vue";
 import { useRouter } from 'vue-router'
 import { useSidebar, useUsers } from "@/compositionStore/index"
 
@@ -35,18 +35,13 @@ export default {
     },
     components: { },
     setup(props) {
-        const store = inject("store");
         const router = useRouter()
         const { selectSidebar } = useSidebar()
-        const { getLoggedInUser } = useUsers()
+        const { loginUser, registerUser, getLoggedInUser } = useUsers()
 
         // computed
         const formDefinition = computed(() => props.ifRegistrationForm ? 'register' : 'login');
         const loggedUser = getLoggedInUser()
-
-        // functions
-        const loginUser = (userData) => store.users.actions.loginUser(userData);
-        const registerUser = (userData) => store.users.actions.registerUser(userData);
 
         return { 
             router,

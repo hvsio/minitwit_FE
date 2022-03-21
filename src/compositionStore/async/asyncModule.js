@@ -1,4 +1,4 @@
-import { readonly, reactive } from 'vue'
+import { readonly, reactive, computed } from 'vue'
 
 const state = reactive({
     isLoading: false,
@@ -15,7 +15,23 @@ const actions = {
     }
 }
 
+const getLoading = () => computed(() => state.isLoading)
+const getError = () => computed(() => state.error)
+const setLoading = (isLoading) => actions.setLoading(isLoading)
+const setError = (e) => actions.setError(e)
+
+export {
+    getLoading,
+    getError,
+    setLoading,
+    setError
+}
+
 export default {
     state: readonly(state),
-    actions: readonly(actions)
+    actions: readonly(actions),
+    getLoading,
+    getError,
+    setLoading,
+    setError
 }

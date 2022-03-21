@@ -72,9 +72,6 @@ export {
 }
 
 export default {
-  state: readonly(state),
-  mutations: readonly(mutations),
-  actions: readonly(actions),
   getFollowers,
   fetchFollowers,
   unfollowUser,
