@@ -106,7 +106,7 @@ export {
     fetchTwitList,
     fetchPrivateTwitList,
     addTwit,
-    flagTwit,
+    flagTwit
     getCurrentTwitPage
 }
 
@@ -116,6 +116,6 @@ export default {
     getPrivateTwitList,
     fetchTwitList,
     fetchPrivateTwitList,
-    flagTwit,
+    flagTwit
     getCurrentTwitPage
 }
