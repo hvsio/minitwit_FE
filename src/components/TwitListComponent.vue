@@ -16,14 +16,14 @@
         <va-list-item-section class="content">
           <div class="header">
             <va-list-item-label>
-              Author ID: {{ item.authorId }} 👾
+              {{ item.user.userName }} 👾
             </va-list-item-label>
             <va-list-item-label>
-              Message ID: {{ item.messageId }} 💬 
+              {{ item.user.email }} 💬 
             </va-list-item-label>
           </div>
           <va-list-item-label :color="textColor">
-            {{ item.text }}
+            {{ item.msg.text }}
           </va-list-item-label>
         </va-list-item-section>
 
