@@ -13,7 +13,14 @@
       />
     </div>
     <div class="content-pager">
-      <va-pagination :model-value="twitsPaged.page" @update:modelValue="handlePageChange" :pages="twitsPaged.totalPages" size="large" color="black" :visible-pages="3" />
+      <va-pagination
+        :model-value="twitsPaged.page"
+        @update:modelValue="handlePageChange"
+        :pages="twitsPaged.totalPages"
+        size="large"
+        color="black"
+        :visible-pages="3"
+      />
     </div>
   </div>
 </template>
