@@ -7,45 +7,52 @@ const state = reactive({
         page: 1,
         totalPages: 1
     },
-    usersTwitList: [],
+    usersTwitList: {
+        user: {},
+        twits: []
+    },
 })
 
 const mutations = {
     setTwitList: (twitList) => {
-        state.twitList = twitList
+        state.twitList = {
+            ...twitList,
+        }
     },
 
     setUsersTwitList: (twitList) => {
-        state.usersTwitList = twitList
+        state.usersTwitList = {
+            ...twitList,
+        }
     },
 
     addPublicTwit: (twit) => {
-        state.twitList = [
-            ...state.twitList,
+        state.twitList.twits = [
+            ...state.twitList.twits,
             twit
         ]
     },
 
     addPrivateTwit: (twit) => {
-        state.usersTwitList = [
-            ...state.usersTwitList,
+        state.usersTwitList.twits = [
+            ...state.usersTwitList.twits,
             twit
         ]
     },
 
     updateTwit: (messageId, flagged) => {
-        const twitIndex = state.twitList.findIndex(twitItem =>
+        const twitIndex = state.twitList.twits.findIndex(twitItem =>
             twitItem.messageId == messageId
         )
         const newTwit = {
-            ...state.twitList[twitIndex],
+            ...state.twitList.twits[twitIndex],
             flagged
         }
 
         state.twitList = [
-            ...state.twitList.slice(0, twitIndex),
+            ...state.twitList.twits.slice(0, twitIndex),
             newTwit,
-            ...state.twitList.slice(twitIndex + 1)
+            ...state.twitList.twits.slice(twitIndex + 1)
         ]
     }
 }
@@ -54,7 +61,6 @@ const actions = {
     getTwitList: async (page, pageSize) => {
         try {
             const result = await twitsApi.fetchTwits(page, pageSize)
-            console.log(result)
             mutations.setTwitList(result)
         } catch (e) {
             console.error(e)
@@ -64,6 +70,7 @@ const actions = {
     getUsersTwitList: async (userId) => {
         try {
             const result = await twitsApi.fetchPersonalTwits(userId)
+            console.log(result)
             mutations.setUsersTwitList(result)
         } catch (e) {
             console.error(e)
