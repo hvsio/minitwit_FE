@@ -13,7 +13,7 @@ const mutations = {
     
     logoutUser() {
         state.loggedUser = {}
-        localStorage.setItem('loggedUser', {})
+        localStorage.setItem('loggedUser', JSON.stringify({}))
     }
 }
 
