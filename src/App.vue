@@ -37,9 +37,10 @@ export default {
     initStore();
     const { getColors } = useColors();
     const colors = computed(() => getColors());
-    const storedUser = localStorage.getItem("loggedUser");
+    const storedUserString = localStorage.getItem("loggedUser");
+    const storedUser = JSON.parse(storedUserString);
 
-    if (!!storedUser && storedUser != 0) {
+    if (!!storedUser && Object.keys(storedUser).length != 0) {
       enforceLoggedUser(storedUser);
     }
 

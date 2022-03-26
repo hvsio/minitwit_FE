@@ -9,7 +9,7 @@ const state = reactive({
 const mutations = {
     loginUser(userId) {
         state.loggedUser = userId;
-        localStorage.setItem('loggedUser', userId)
+        localStorage.setItem('loggedUser', JSON.stringify(user));
     },
     
     logoutUser() {
