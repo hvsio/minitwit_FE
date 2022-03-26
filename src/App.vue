@@ -62,7 +62,6 @@ export default {
         },
         {
           title: "Logout",
-          to: "/",
           visibleToLoggedUser: true,
           function: () => handleLogoutUser(),
         },
@@ -71,7 +70,7 @@ export default {
     const getSidebarItems = computed(() => useSidebarItems());
 
     const handleSidebarItemClick = (item) => {
-      if (!Object.prototype.hasOwnProperty(item, "function")) return;
+      if (!item.hasOwnProperty("function")) return;
 
       item.function(item);
     };

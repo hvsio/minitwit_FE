@@ -8,7 +8,7 @@
       <template v-for="(item, index) in items" :key="index">
         <div v-show="isVisible(item.visibleToLoggedUser)">
           <va-sidebar-item
-            :to="item.to"
+            :to="item.to ? item.to : '/'"
             :active="isSelectedSidebarItem(item.to)"
             :active-color="color"
             @click="handleItemClick(item)"
