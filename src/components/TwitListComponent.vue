@@ -33,7 +33,7 @@
             @click="handleItemClick(item)"
           />
           <img class="followBtn"
-            v-if="!isAlreadyFollowed(item.authorId) && item.authorId != loggedInUser.userId && Object.keys(loggedInUser).length != 0"
+            v-if="showFollowButton(item)"
             :src="require('../assets/svgs/follow.svg')"
             @click="followUser(item.authorId)"
           />
@@ -110,10 +110,19 @@ export default {
   setup(props, context) {
     const { getFollowers } = useFollowers();
     const { getLoggedInUser } = useUsers();
+    const loggedInUser = getLoggedInUser();
     const followers = getFollowers();
 
     const isAlreadyFollowed = (authorId) => {
       return followers.value.some(entry => entry.whomId === authorId)
+    }
+
+    const isMe = (authorId) => {
+      return authorId === loggedInUser.value.userId
+    }
+
+    const showFollowButton = (item) => {
+      return props.isPersonal ? false : !isAlreadyFollowed(item.msg.authorId) && !isMe(item.msg.authorId) && Object.keys(loggedInUser.value).length != 0
     }
 
     const handleItemClick = (item) => context.emit("onClick", item);
@@ -121,9 +130,9 @@ export default {
 
     return {
       handleItemClick,
-      loggedInUser: getLoggedInUser(),
+      loggedInUser,
       followUser,
-      isAlreadyFollowed
+      showFollowButton,
     };
   },
 };
