@@ -16,14 +16,14 @@
         <va-list-item-section class="content">
           <div class="header">
             <va-list-item-label>
-              {{ item.user.userName }} 👾
+              {{ isPersonal ? user.userName : item.user.userName }} 👾
             </va-list-item-label>
             <va-list-item-label>
-              {{ item.user.email }} 💬 
+              {{ isPersonal ? user.email : item.user.email }} 💬 
             </va-list-item-label>
           </div>
           <va-list-item-label :color="textColor">
-            {{ item.msg.text }}
+            {{ isPersonal ? item.text : item.msg.text }}
           </va-list-item-label>
         </va-list-item-section>
 
@@ -33,7 +33,7 @@
             @click="handleItemClick(item)"
           />
           <img class="followBtn"
-            v-if="!isAlreadyFollowed(item.authorId) && item.authorId != loggedInUser && loggedInUser != 0"
+            v-if="!isAlreadyFollowed(item.authorId) && item.authorId != loggedInUser.userId && Object.keys(loggedInUser).length != 0"
             :src="require('../assets/svgs/follow.svg')"
             @click="followUser(item.authorId)"
           />
@@ -49,6 +49,16 @@ import { useFollowers, useUsers } from "@/compositionStore/index"
 export default {
   name: "TwitListComponent",
   props: {
+    isPersonal: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    user: {
+      type: Object,
+      required: (props) => props.isPersonal ? true : false,
+      default: null,
+    },
     items: {
       type: Array,
       required: true,
@@ -101,7 +111,6 @@ export default {
     const { getFollowers } = useFollowers();
     const { getLoggedInUser } = useUsers();
     const followers = getFollowers();
-    const loggedInUser = getLoggedInUser();
 
     const isAlreadyFollowed = (authorId) => {
       return followers.value.some(entry => entry.whomId === authorId)
@@ -112,7 +121,7 @@ export default {
 
     return {
       handleItemClick,
-      loggedInUser,
+      loggedInUser: getLoggedInUser(),
       followUser,
       isAlreadyFollowed
     };

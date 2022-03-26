@@ -6,7 +6,7 @@
       </div>
       <twit-list-component
         v-else
-        :items="twitsPaged.tweets"
+        :items="twitsPaged.twits"
         :height="'100%'"
         @onClick="handleOnTwitClick"
         @onFollowClick="handleOnFollowClick"

@@ -3,7 +3,7 @@ import twitsApi from '@/api/twits/twits.js'
 
 const state = reactive({
     twitList: {
-        tweets: [],
+        twits: [],
         page: 1,
         totalPages: 1
     },

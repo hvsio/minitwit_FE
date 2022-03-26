@@ -9,7 +9,7 @@
         </div>
         <div class="priv-twits-wrapper">
             <p> Your published twits </p>
-            <twit-list-component :items="twitList" @onClick="handleOnTwitClick"/>
+            <twit-list-component :isPersonal=true :user="loggedInUser" :items="twitList" @onClick="handleOnTwitClick" />
         </div>
     </div>
 </template>
@@ -43,10 +43,11 @@ export default {
         fetchPrivateTwitList(loggedInUser.value.userId)
         fetchFollowers(loggedInUser.value.userId)
         return {
+            loggedInUser,
             followers: getFollowers(),
             handleOnUnfollowClick,
             handleOnTwitClick,
-            twitList: getPrivateTwitList()
+            twitList: getPrivateTwitList().value.twits
         };
     }
 }
