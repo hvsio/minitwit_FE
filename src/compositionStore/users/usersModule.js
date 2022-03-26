@@ -1,28 +1,27 @@
-import { readonly, reactive, computed } from 'vue'
-import store from '@/compositionStore/index'
+import { reactive, computed } from 'vue'
 import usersApi from '@/api/users/users.js'
 
 const state = reactive({
-    loggedUser: 0,
+    loggedUser: {},
 })
 
 const mutations = {
-    loginUser(userId) {
-        state.loggedUser = userId;
+    loginUser(user) {
+        state.loggedUser = user;
         localStorage.setItem('loggedUser', JSON.stringify(user));
     },
     
     logoutUser() {
-        state.loggedUser = 0
-        localStorage.setItem('loggedUser', 0)
+        state.loggedUser = {}
+        localStorage.setItem('loggedUser', {})
     }
 }
 
 const actions = {
     registerUser: async (userData) => {
         try {
-            const res = await usersApi.registerUser(userData);
-            mutations.loginUser(res.userId);
+            const user = await usersApi.registerUser(userData);
+            mutations.loginUser(user);
         } catch (e) {
             console.error(e)
         }
@@ -31,7 +30,7 @@ const actions = {
     loginUser: async (userData) => {
         try {
             const user = await usersApi.loginUser(userData)
-            mutations.loginUser(user.userId)
+            mutations.loginUser(user)
         } catch (e) {
             console.error(e)
             return e.response.data;

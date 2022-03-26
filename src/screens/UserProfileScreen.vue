@@ -31,7 +31,7 @@ export default {
         const { getFollowers, fetchFollowers, unfollowUser } = useFollowers()
         const { getPrivateTwitList, fetchPrivateTwitList, flagTwit } = useTwits()
         const { getLoggedInUser } = useUsers()
-        const loggedInUserId = getLoggedInUser()
+        const loggedInUser = getLoggedInUser()
 
         const handleOnUnfollowClick = (item) => {
             unfollowUser(item.id)
@@ -40,8 +40,8 @@ export default {
             flagTwit(twit.messageId, twit.flagged)
         }
 
-        fetchPrivateTwitList(loggedInUserId.value)
-        fetchFollowers(loggedInUserId.value)
+        fetchPrivateTwitList(loggedInUser.value.userId)
+        fetchFollowers(loggedInUser.value.userId)
         return {
             followers: getFollowers(),
             handleOnUnfollowClick,

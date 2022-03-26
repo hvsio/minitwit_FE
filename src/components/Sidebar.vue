@@ -79,7 +79,7 @@ export default {
     const { getSelectedSidebarItem, selectSidebar } = useSidebar();
     const selectedSidebarItem = getSelectedSidebarItem();
     const loggedInUser = getLoggedInUser();
-    const loggedUser = computed(() => (loggedInUser.value != 0 ? true : false));
+    const loggedUser = computed(() => (Object.keys(loggedInUser.value).length != 0 ? true : false));
 
     //functions
     const isVisible = (val) => {

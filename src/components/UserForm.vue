@@ -68,7 +68,7 @@ export default {
                 await this.loginUser(userData);
             }
 
-            if (this.loggedUser && this.loggedUser != 0) {
+            if (Object.keys(this.loggedUser).length != 0) {
                 this.router.push({path: '/user-profile'});
             } 
         }
