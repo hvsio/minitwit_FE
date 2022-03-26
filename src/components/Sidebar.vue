@@ -9,7 +9,7 @@
         <div v-show="isVisible(item.visibleToLoggedUser)">
           <va-sidebar-item
             :to="item.to"
-            :active="isSelectedSidebarItem(item.title)"
+            :active="isSelectedSidebarItem(item.to)"
             :active-color="color"
             @click="handleItemClick(item)"
           >
@@ -30,8 +30,9 @@
 </template>
 
 <script>
-import { computed } from "vue"
-import { useSidebar } from "@/compositionStore/index"
+import { computed, watchEffect } from "vue";
+import { useSidebar } from "@/compositionStore/index";
+import { useRouter } from "vue-router";
 import { getLoggedInUser } from "@/compositionStore/users/usersModule";
 
 export default {
@@ -74,14 +75,15 @@ export default {
   components: {},
   emits: ["onItemClick"],
   setup(props, context) {
-    const { getSelectedSidebarItem } = useSidebar()
-    const selectedSidebarItem = getSelectedSidebarItem()
+    const router = useRouter();
+    const { getSelectedSidebarItem, selectSidebar } = useSidebar();
+    const selectedSidebarItem = getSelectedSidebarItem();
     const loggedInUser = getLoggedInUser();
-    const loggedUser = computed(() => loggedInUser.value != 0 ? true : false);
+    const loggedUser = computed(() => (loggedInUser.value != 0 ? true : false));
 
     //functions
     const isVisible = (val) => {
-      if (val == 'always') return true;
+      if (val == "always") return true;
       else return loggedUser.value === val;
     };
 
@@ -91,10 +93,12 @@ export default {
     const handleItemClick = (item) => {
       context.emit("onItemClick", item);
     };
+
+    watchEffect(() => selectSidebar(router.currentRoute.value.fullPath));
     return {
       handleItemClick,
       isSelectedSidebarItem,
-      isVisible
+      isVisible,
     };
   },
 };

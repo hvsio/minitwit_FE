@@ -22,7 +22,7 @@
 <script>
 import { computed } from "vue";
 import { useRouter } from 'vue-router'
-import { useSidebar, useUsers } from "@/compositionStore/index"
+import { useUsers } from "@/compositionStore/index"
 
 export default {
     name: "UserForm",
@@ -36,7 +36,6 @@ export default {
     components: { },
     setup(props) {
         const router = useRouter()
-        const { selectSidebar } = useSidebar()
         const { loginUser, registerUser, getLoggedInUser } = useUsers()
 
         // computed
@@ -48,8 +47,7 @@ export default {
             formDefinition,
             loggedUser,
             loginUser,
-            registerUser,
-            selectSidebar
+            registerUser
         }
         
     },
@@ -71,7 +69,6 @@ export default {
             }
 
             if (this.loggedUser && this.loggedUser != 0) {
-                this.selectSidebar("User profile/create twit")
                 this.router.push({path: '/user-profile'});
             } 
         }

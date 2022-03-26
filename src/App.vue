@@ -21,10 +21,7 @@ import Sidebar from "@/components/Sidebar.vue";
 import { useColors } from "vuestic-ui";
 import { computed } from "vue";
 import { initStore } from "@/compositionStore/index";
-import {
-  getSidebarMinimized,
-  selectSidebar,
-} from "@/compositionStore/sidebar/sidebarModule";
+import { getSidebarMinimized } from "@/compositionStore/sidebar/sidebarModule";
 import {
   enforceLoggedUser,
   logoutUser,
@@ -40,48 +37,46 @@ export default {
     initStore();
     const { getColors } = useColors();
     const colors = computed(() => getColors());
-    const storedUser = localStorage.getItem('loggedUser')
+    const storedUser = localStorage.getItem("loggedUser");
 
     if (!!storedUser && storedUser != 0) {
-       enforceLoggedUser(storedUser);
+      enforceLoggedUser(storedUser);
     }
-    
+
     const useSidebarItems = () => {
       return [
         {
           title: "Timeline",
           to: "/",
           visibleToLoggedUser: "always",
-          function: (title) => selectSidebar(title),
         },
         {
           title: "Login or register",
-          to: "user-entrance",
+          to: "/user-entrance",
           visibleToLoggedUser: false,
-          function: (title) => selectSidebar(title),
         },
         {
           title: "User profile/create twit",
           to: "/user-profile",
           visibleToLoggedUser: true,
-          function: (title) => selectSidebar(title),
         },
         {
           title: "Logout",
           to: "/",
           visibleToLoggedUser: true,
-          function: (title) => handleLogoutUser(title),
+          function: () => handleLogoutUser(),
         },
       ];
     };
     const getSidebarItems = computed(() => useSidebarItems());
 
     const handleSidebarItemClick = (item) => {
-      item.function(item.title);
+      if (!Object.prototype.hasOwnProperty(item, "function")) return;
+
+      item.function(item);
     };
 
     const handleLogoutUser = () => {
-      selectSidebar("Timeline");
       logoutUser();
     };
 
@@ -96,7 +91,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./genericStyles.scss"; 
+@import "./genericStyles.scss";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -126,7 +121,7 @@ export default {
   flex-direction: row;
   width: 100%;
   height: 100%;
-  background-image: url('./assets/svgs/background.svg');
+  background-image: url("./assets/svgs/background.svg");
   background-size: cover;
 }
 
