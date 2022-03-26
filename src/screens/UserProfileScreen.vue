@@ -18,6 +18,7 @@ import AddTwitComponent from '@/components/AddTwitComponent.vue';
 import FollowersComponent from '@/components/FollowersComponent.vue';
 import TwitListComponent from "@/components/TwitListComponent.vue";
 import { useFollowers, useTwits, useUsers } from "@/compositionStore/index"
+import { useRouter } from 'vue-router';
 
 export default {
     name: "UserProfileScreen",
@@ -28,6 +29,7 @@ export default {
         TwitListComponent
     },
     setup() {
+        const router = useRouter()
         const { getFollowers, fetchFollowers, unfollowUser } = useFollowers()
         const { getPrivateTwitList, fetchPrivateTwitList, flagTwit } = useTwits()
         const { getLoggedInUser } = useUsers()
@@ -40,8 +42,8 @@ export default {
             flagTwit(twit.messageId, twit.flagged)
         }
 
-        fetchPrivateTwitList(loggedInUser.value.userId)
-        fetchFollowers(loggedInUser.value.userId)
+        fetchPrivateTwitList(router.currentRoute.value.params.id)
+        fetchFollowers(router.currentRoute.value.params.id)
         return {
             loggedInUser,
             followers: getFollowers(),

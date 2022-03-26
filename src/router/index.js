@@ -16,7 +16,7 @@ const routes = [
     component: UserEntranceScreen
   },
   {
-    path: '/user-profile',
+    path: '/user-profile/:id',
     name: 'MiniTwit User Page',
     component: UserProfileScreen
   },

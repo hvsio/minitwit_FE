@@ -24,6 +24,7 @@ import { initStore } from "@/compositionStore/index";
 import { getSidebarMinimized } from "@/compositionStore/sidebar/sidebarModule";
 import {
   enforceLoggedUser,
+  getLoggedInUser,
   logoutUser,
 } from "@/compositionStore/users/usersModule";
 
@@ -37,6 +38,7 @@ export default {
     initStore();
     const { getColors } = useColors();
     const colors = computed(() => getColors());
+    const loggedInUser = getLoggedInUser();
     const storedUserString = localStorage.getItem("loggedUser");
     const storedUser = JSON.parse(storedUserString);
 
@@ -58,7 +60,7 @@ export default {
         },
         {
           title: "User profile/create twit",
-          to: "/user-profile",
+          to: `/user-profile/${loggedInUser.value.userId}`,
           visibleToLoggedUser: true,
         },
         {

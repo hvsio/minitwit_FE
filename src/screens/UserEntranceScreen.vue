@@ -6,7 +6,6 @@
 </template>
 <script>
 import UserForm from '@/components/UserForm.vue';
-import { computed, inject } from "vue";
 
 export default {
     name: "UserEntranceScreen",
@@ -15,7 +14,6 @@ export default {
         UserForm
     },
     setup() {
-        const store = inject("store");
         return {};
     }
 }

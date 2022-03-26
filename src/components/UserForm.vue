@@ -69,7 +69,12 @@ export default {
             }
 
             if (Object.keys(this.loggedUser).length != 0) {
-                this.router.push({path: '/user-profile'});
+                this.router.push({
+                    name: 'MiniTwit User Page',
+                    params: {
+                        id: this.loggedUser.userId
+                    }
+                });
             } 
         }
     },

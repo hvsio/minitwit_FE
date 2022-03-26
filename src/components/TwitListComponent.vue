@@ -56,7 +56,7 @@ export default {
     },
     user: {
       type: Object,
-      required: (props) => props.isPersonal ? true : false,
+      required: false,
       default: null,
     },
     items: {
