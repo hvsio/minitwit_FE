@@ -1,16 +1,31 @@
 <template>
   <div id="FollowersComponent">
     <va-list>
-      <va-list-item class="follower-card" v-for="(item, index) in followers" :key="index">
-        <va-list-item-section>
-          <va-list-item-label>
-            User ID: {{ item.whomId }}
-          </va-list-item-label>
+      <va-list-item
+        class="follower-card"
+        v-for="(item, index) in followers"
+        :key="index"
+      >
+        <va-list-item-section class="actionButtonsWrapper">
+          <img class="picture" :src="require('../assets/svgs/unfollow.svg')" />
         </va-list-item-section>
-        <va-list-item-section icon>
-          <div class="submit-btn">
-                <input type="submit" value="Unfollow" @click="handleItemClick(item)">
-            </div>
+        <va-list-item-section class="content">
+          <div class="header">
+            <va-list-item-label>
+              {{ item.name }}
+            </va-list-item-label>
+            <va-list-item-label>
+              {{ item.email }}
+            </va-list-item-label>
+          </div>
+        </va-list-item-section>
+        
+        <va-list-item-section class="actionButtonsWrapper">
+          <img
+            class="unfollowBtn"
+            :src="require('../assets/svgs/unfollow.svg')"
+            @click="handleItemClick(item)"
+          />
         </va-list-item-section>
       </va-list-item>
     </va-list>
@@ -26,7 +41,7 @@ export default {
     items: {
       type: Array,
       required: true,
-      default: []
+      default: [],
     },
   },
   components: {},
@@ -46,15 +61,55 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../_variables.scss';
+@import "../genericStyles.scss";
+@import "../_variables.scss";
 
 #FollowersComponent {
-  width: fit-content;
 
   .va-list {
-    padding: 0 !important;
-    border-top: 1px solid $border-background;
+    padding: 0 0 2rem 0 !important;
 
+    .va-list-item {
+      background-color: $twit-background;
+
+      @include roundedBorders;
+      @include shadow;
+      box-shadow: unset;
+      > * {
+        display: block !important;
+
+        .va-list-item-section {
+          &.content {
+            flex-basis: 66%;
+            text-align: left;
+          }
+
+          &.actionButtonsWrapper {
+            @include roundedBorders;
+            @include shadow;
+            display: flex;
+            flex-direction: row;
+            margin: auto 0.5rem;
+            background-color: $twit-btn-background;
+            flex-basis: 100px;
+            justify-content: space-evenly;
+            column-gap: 0.5rem;
+
+            > * {
+              width: 2rem;
+              margin: auto 5px;
+            }
+          }
+          .header {
+            margin-bottom: 20px;
+          }
+
+          .va-list-item-label {
+            -webkit-line-clamp: unset !important;
+          }
+        }
+      }
+    }
   }
 }
 </style>

@@ -9,7 +9,7 @@
         </div>
         <div class="priv-twits-wrapper">
             <p> Your published twits </p>
-            <twit-list-component :isPersonal=true :user="inspectedUser" :items="twitList" @onClick="handleOnTwitClick" />
+            <twit-list-component class="twit-list-component" :isPersonal=true :user="inspectedUser" :items="twitList" @onClick="handleOnTwitClick" />
         </div>
     </div>
 </template>
@@ -85,32 +85,63 @@ export default {
     }
 
     .followers-wrapper {
-        overflow: scroll;
+        overflow: hidden;
         grid-area: 1 / col-sec / endline / col-endline;
+
+        > div {
+            overflow-y: scroll;
+        }
+
+        .followed-users-list {
+            margin-top: 1.5rem !important;
+        }
     }
 
     .create-twit-wrapper {
         grid-area: 1 / 1 / second / col-sec;
+
+        > * {
+            width: 55% !important;
+        }
     }
 
     .priv-twits-wrapper {
+        overflow: hidden;
         grid-area: second / 1 / endline / col-sec;
 
         > div {
-            border-top: 1px solid $border-background;
-            width: 90% !important;
+            width: 100% !important;
             height: 100%!important;
-            overflow: scroll;
+            overflow-x: scroll;
         }
 
-        
+        .twit-list-component {
+            margin-top: 1.5rem !important;
+        }
 
         .va-list {
-            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .va-list-item {
+            min-height: 150px !important;
+            width: 55% !important;
+            margin-top: 6px !important;
+            margin-bottom: 6px !important;
         }
 
         .va-list-label {
             display: none;
+        }
+    }
+
+    .followers-wrapper {
+        .va-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
     }
 }

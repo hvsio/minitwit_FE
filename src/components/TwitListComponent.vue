@@ -19,20 +19,29 @@
               {{ isPersonal ? user.userName : item.user.userName }} 👾
             </va-list-item-label>
             <va-list-item-label>
-              {{ isPersonal ? user.email : item.user.email }} 💬 
+              {{ isPersonal ? user.email : item.user.email }} 💬
             </va-list-item-label>
           </div>
-          <va-list-item-label :color="textColor">
+          <va-list-item-label class="text" :color="textColor">
             {{ isPersonal ? item.text : item.msg.text }}
+          </va-list-item-label>
+          <va-list-item-label class="date" caption>
+            {{ isPersonal ? item.publishDate : item.msg.publishDate}}
           </va-list-item-label>
         </va-list-item-section>
 
         <va-list-item-section class="actionButtonsWrapper">
-          <img class="flagBtn"
-            :src="item.flagged ? require('../assets/svgs/red_flagged.svg') : require('../assets/svgs/flagged.svg')"
+          <img
+            class="flagBtn"
+            :src="
+              item.flagged
+                ? require('../assets/svgs/red_flagged.svg')
+                : require('../assets/svgs/flagged.svg')
+            "
             @click="handleItemClick(item)"
           />
-          <img class="followBtn"
+          <img
+            class="followBtn"
             v-if="showFollowButton(item)"
             :src="require('../assets/svgs/follow.svg')"
             @click="followUser(item.authorId)"
@@ -44,7 +53,7 @@
 </template>
 
 <script>
-import { useFollowers, useUsers } from "@/compositionStore/index"
+import { useFollowers, useUsers } from "@/compositionStore/index";
 
 export default {
   name: "TwitListComponent",
@@ -103,7 +112,7 @@ export default {
       type: String,
       required: false,
       default: "12px",
-    }
+    },
   },
   components: {},
   emits: ["onClick"],
@@ -114,16 +123,20 @@ export default {
     const followers = getFollowers();
 
     const isAlreadyFollowed = (authorId) => {
-      return followers.value.some(entry => entry.whomId === authorId)
-    }
+      return followers.value.some((entry) => entry.whomId === authorId);
+    };
 
     const isMe = (authorId) => {
-      return authorId === loggedInUser.value.userId
-    }
+      return authorId === loggedInUser.value.userId;
+    };
 
     const showFollowButton = (item) => {
-      return props.isPersonal ? false : !isAlreadyFollowed(item.msg.authorId) && !isMe(item.msg.authorId) && Object.keys(loggedInUser.value).length != 0
-    }
+      return props.isPersonal
+        ? false
+        : !isAlreadyFollowed(item.msg.authorId) &&
+            !isMe(item.msg.authorId) &&
+            Object.keys(loggedInUser.value).length != 0;
+    };
 
     const handleItemClick = (item) => context.emit("onClick", item);
     const followUser = (userId) => context.emit("onFollowClick", userId);
@@ -139,15 +152,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../genericStyles.scss"; 
-@import "../_variables.scss"; 
+@import "../genericStyles.scss";
+@import "../_variables.scss";
 
 #TwitListComponent {
   margin: 2rem auto;
 
   .va-list {
     padding: 0 0 2rem 0 !important;
-    
+
     .va-list-item {
       background-color: $twit-background;
 
@@ -178,15 +191,18 @@ export default {
               width: 2rem;
               margin: auto 5px;
             }
-
           }
-            .header { 
+          .header {
             margin-bottom: 20px;
           }
 
+          .text {
+            word-wrap: break-word;
+          }
+
           .va-list-item-label {
-              -webkit-line-clamp: unset !important;
-            }
+            -webkit-line-clamp: unset !important;
+          }
         }
       }
     }
