@@ -27,8 +27,8 @@
               </va-list-item-label>
             </router-link>
             <va-list-item-label v-else>
-                {{ isPersonal ? user.userName : item.user.userName }} 👾
-              </va-list-item-label>
+              {{ isPersonal ? user.userName : item.user.userName }} 👾
+            </va-list-item-label>
             <va-list-item-label>
               {{ isPersonal ? user.email : item.user.email }} 💬
             </va-list-item-label>
@@ -41,7 +41,13 @@
           </va-list-item-label>
         </va-list-item-section>
 
-        <va-list-item-section class="actionButtonsWrapper">
+        <va-list-item-section
+          v-if="
+            (isPersonal ? item.messageId !== null : true) ||
+            showFollowButton(item)
+          "
+          class="actionButtonsWrapper"
+        >
           <img
             class="flagBtn"
             :src="
@@ -49,13 +55,13 @@
                 ? require('../assets/svgs/red_flagged.svg')
                 : require('../assets/svgs/flagged.svg')
             "
-            @click="handleItemClick(item)"
+            @click="handleItemClick(isPersonal ? item : item.msg)"
           />
           <img
-            class="followBtn"
             v-if="showFollowButton(item)"
+            class="followBtn"
             :src="require('../assets/svgs/follow.svg')"
-            @click="followUser(item.authorId)"
+            @click="followUser(isPersonal ? user.userId : item.msg.authorId)"
           />
         </va-list-item-section>
       </va-list-item>
@@ -201,6 +207,7 @@ export default {
             > * {
               width: 2rem;
               margin: auto 5px;
+              cursor: pointer;
             }
           }
           .header {

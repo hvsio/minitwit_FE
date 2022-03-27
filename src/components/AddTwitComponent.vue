@@ -21,7 +21,7 @@ export default {
         const { addTwit } = useTwits()
         const { getLoggedInUser } = useUsers()
 
-        const submitTwit = (twitData) => addTwit(twitData)
+        const submitTwit = (twitData, loggedInUser) => addTwit(twitData, loggedInUser)
 
         return { 
             loggedUser: getLoggedInUser(),
@@ -35,7 +35,7 @@ export default {
                 "AuthorId": this.loggedUser.userId,
                 "Text": text
             };
-            await this.submitTwit(twitData);
+            await this.submitTwit(twitData, this.loggedUser);
             document.getElementById("twit-text").value = ""
         }
     }

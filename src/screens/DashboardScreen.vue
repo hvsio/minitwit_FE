@@ -35,8 +35,8 @@
 <script>
 import TwitListComponent from "@/components/TwitListComponent.vue";
 import { useColors } from "vuestic-ui";
-import { computed } from "vue";
-import { useFollowers, useTwits, useAsync } from "../compositionStore/index";
+import { computed, watchEffect } from "vue";
+import { useFollowers, useTwits, useAsync, useUsers } from "../compositionStore/index";
 
 export default {
   name: "DashboardScreen",
@@ -46,19 +46,22 @@ export default {
   },
   setup() {
     const { getColors } = useColors();
-    const { followUser } = useFollowers();
+    const { followUser, fetchFollowers } = useFollowers();
+    const { getLoggedInUser } = useUsers();
     const { getTwitList, flagTwit, fetchTwitList } = useTwits();
     const { getLoading, setLoading, getError } = useAsync();
     const colors = computed(() => getColors());
+    const loggedInUser = getLoggedInUser();
 
     const twitsPaged = getTwitList();
 
     const handleOnTwitClick = (twit) => {
-      flagTwit(twit.msg.messageId, twit.msg.flagged);
+      flagTwit(twit.messageId, twit.flagged);
     };
 
     const handleOnFollowClick = (userId) => {
-      followUser(userId);
+      if (Object.keys(loggedInUser.value).length <= 0) return
+      followUser(userId, loggedInUser.value.userId);
     };
 
     const handlePageChange = (page) => {
@@ -66,6 +69,11 @@ export default {
     };
 
     fetchTwitList(twitsPaged.page === undefined ? 1 : twitsPaged.page);
+    watchEffect(() => {
+      if (Object.keys(loggedInUser.value).length !== 0) {
+      fetchFollowers(loggedInUser.value.userId);
+    }
+    })
     return {
       colors,
       isLoading: getLoading(),

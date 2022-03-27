@@ -1,6 +1,5 @@
 import { reactive, computed } from "vue";
 import followersApi from "@/api/followers/follower.js";
-import { getLoggedInUser } from "@/compositionStore/users/usersModule.js";
 
 const state = reactive({
   followers: [],
@@ -18,8 +17,11 @@ const mutations = {
   },
 
   addFollower: (followObj) => {
-    state.followers.push(followObj)
-  }
+    state.followers = [
+      ...state.followers,
+      followObj
+    ];
+  },
 };
 
 const actions = {
@@ -41,39 +43,41 @@ const actions = {
     }
   },
 
-  followUser: async (userId) => {
-    const isAlreadyFollowed = state.followers.some(entity => entity.whomId === userId)
+  followUser: async (userId, loggedInUserId) => {
+    const isAlreadyFollowed = state.followers.some((entity) => entity.whomId === userId);
+
     if (isAlreadyFollowed) return;
-    if (!!getLoggedInUser().value) {
-      try {
-        const userData = {
-          "WhoId": getLoggedInUser().value,
-          "WhomId": userId
-        }
-        const res = await followersApi.followUser(userData);
-        mutations.addFollower(res)
-      } catch (e) {
-        console.error(e);
-      }
+
+    try {
+      const userData = {
+        WhoId: loggedInUserId,
+        WhomId: userId,
+      };
+      const res = await followersApi.followUser(userData);
+      console.log(res)
+      state.followers.forEach((item) => console.log(item))
+      mutations.addFollower(res);
+    } catch (e) {
+      console.error(e);
     }
   },
 };
 
-const getFollowers = () => computed(() => state.followers)
-const fetchFollowers = (userId) => actions.fetchFollowers(userId)
-const unfollowUser = (userId) => actions.unfollowUser(userId)
-const followUser = (userId) => actions.followUser(userId)
+const getFollowers = () => computed(() => state.followers);
+const fetchFollowers = (userId) => actions.fetchFollowers(userId);
+const unfollowUser = (userId) => actions.unfollowUser(userId);
+const followUser = (userId, loggedInUserId) => actions.followUser(userId, loggedInUserId);
 
 export {
   getFollowers,
   fetchFollowers,
   unfollowUser,
-  followUser
-}
+  followUser 
+};
 
 export default {
   getFollowers,
   fetchFollowers,
   unfollowUser,
-  followUser
+  followUser,
 };

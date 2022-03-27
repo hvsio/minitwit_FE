@@ -90,15 +90,26 @@ const actions = {
         }
     },
 
-    addTwit: async (twitData) => {
+    addTwit: async (twitData, loggedInUser) => {
         try {
             await twitsApi.createTwit(twitData);
-            const twitState = {
+
+            mutations.addPublicTwit({
+                msg: {
+                    authorId: loggedInUser.userId,
+                    text: twitData.Text,
+                    flagged: false
+                },
+                user: {
+                    ...loggedInUser
+                }
+            })
+            mutations.addPrivateTwit({
+                messageId: null,
                 authorId: twitData.AuthorId,
-                text: twitData.Text
-            }
-            mutations.addPublicTwit(twitState)
-            mutations.addPrivateTwit(twitState)
+                text: twitData.Text,
+                flagged: false,
+            })
         } catch (e) {
             console.error(e)
         }
@@ -111,7 +122,7 @@ const getTwitList = () => computed(() =>state.twitList)
 const fetchTwitList = (page, pageSize) => actions.getTwitList(page, pageSize)
 const fetchPrivateTwitList = (userId) => actions.getUsersTwitList(userId)
 const flagTwit = (messageId, flagged) => actions.toggleFlag(messageId, flagged)
-const addTwit = (twitData) => actions.addTwit(twitData)
+const addTwit = (twitData, loggedInUser) => actions.addTwit(twitData, loggedInUser)
 
 export {
     getTwitList,

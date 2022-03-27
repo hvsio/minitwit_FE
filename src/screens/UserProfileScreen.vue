@@ -36,7 +36,7 @@ import FollowersComponent from "@/components/FollowersComponent.vue";
 import TwitListComponent from "@/components/TwitListComponent.vue";
 import { useFollowers, useTwits, useUsers } from "@/compositionStore/index";
 import { useRoute } from "vue-router";
-import { computed, watch, watchEffect } from "@vue/runtime-core";
+import { computed, watchEffect } from "@vue/runtime-core";
 
 export default {
   name: "UserProfileScreen",
