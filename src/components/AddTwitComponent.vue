@@ -32,10 +32,11 @@ export default {
         async sendRequest() {
             const text = document.getElementById("twit-text").value;
             const twitData = {
-                "AuthorId": this.loggedUser.value.userId,
+                "AuthorId": this.loggedUser.userId,
                 "Text": text
             };
             await this.submitTwit(twitData);
+            document.getElementById("twit-text").value = ""
         }
     }
 }
