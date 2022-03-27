@@ -2,9 +2,15 @@
   <div id="DashboardScreen">
     <div class="content-list">
       <div class="progress-bar" v-if="isLoading">
-        <va-progress-circle indeterminate color="black" :thickness="0.2" size="large" />
+        <va-progress-circle
+          indeterminate
+          color="black"
+          :thickness="0.2"
+          size="large"
+        />
       </div>
       <twit-list-component
+        class="twit-list-component"
         v-else
         :items="twitsPaged.twits"
         :height="'100%'"
@@ -20,7 +26,7 @@
         size="large"
         color="black"
         :visible-pages="3"
-        :disabled=isLoading
+        :disabled="isLoading"
       />
     </div>
   </div>
@@ -56,7 +62,7 @@ export default {
     };
 
     const handlePageChange = (page) => {
-      fetchTwitList(page)
+      fetchTwitList(page);
     };
 
     fetchTwitList(twitsPaged.page === undefined ? 1 : twitsPaged.page);
@@ -84,7 +90,8 @@ export default {
   .content-list {
     display: flex;
     justify-content: center;
-    flex-grow: 2;
+    align-items: space-between;
+    flex-grow: 1;
   }
 
   .progress-bar {

@@ -1,16 +1,20 @@
 <template>
   <div id="app">
-    <navbar :navbarColor="colors.black" :iconColor="colors.primaryColor" />
     <div class="app-content">
-      <sidebar
-        class="sidebar"
-        :items="sidebarItems"
-        :minimized="isSidebarMinimized"
-        :color="colors.darkGrey"
-        :iconColor="colors.primaryColor"
-        @onItemClick="handleSidebarItemClick"
-      />
-      <router-view class="router-content" />
+      <div class="navbar">
+        <navbar :navbarColor="colors.black" :iconColor="colors.primaryColor" />
+      </div>
+      <div class="container">
+        <sidebar
+          class="sidebar"
+          :items="sidebarItems"
+          :minimized="isSidebarMinimized"
+          :color="colors.darkGrey"
+          :iconColor="colors.primaryColor"
+          @onItemClick="handleSidebarItemClick"
+        />
+        <router-view class="router-content" />
+      </div>
     </div>
   </div>
 </template>
@@ -25,9 +29,7 @@ import {
   getSidebarItems,
   getSidebarMinimized,
 } from "@/compositionStore/sidebar/sidebarModule";
-import {
-  enforceLoggedUser
-} from "@/compositionStore/users/usersModule";
+import { enforceLoggedUser } from "@/compositionStore/users/usersModule";
 
 export default {
   name: "App",
@@ -73,31 +75,41 @@ export default {
   color: #2c3e50;
   height: 100vh;
   width: 100vw;
-}
 
-#nav {
-  padding: 30px;
+  #nav {
+    padding: 30px;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+    a {
+      font-weight: bold;
+      color: #2c3e50;
 
-    &.router-link-exact-active {
-      color: #42b983;
+      &.router-link-exact-active {
+        color: #42b983;
+      }
     }
   }
-}
 
-.app-content {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-  background-image: url("./assets/svgs/background.svg");
-  background-size: cover;
-}
+  .app-content {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-image: url("./assets/svgs/background.svg");
+    background-size: cover;
 
-.router-content {
-  overflow: scroll;
+    .container {
+      display: flex;
+      overflow: scroll;
+      height: 100%;
+      width: 100%;
+    }
+
+    .router-content {
+      overflow: scroll;
+    }
+  }
 }
 </style>

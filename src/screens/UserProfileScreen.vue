@@ -6,6 +6,7 @@
         v-if="followers.length > 0"
         class="followed-users-list"
         :items="followers"
+        :showButton="isMe"
         @onClick="handleOnUnfollowClick"
       />
       <p v-else>No Followed People</p>
@@ -70,14 +71,16 @@ export default {
       flagTwit(twit.messageId, twit.flagged);
     };
 
-    watchEffect(() => {
-      if (!currentUserId.value) return
-      fetchPrivateTwitList(currentUserId.value);
-      fetchFollowers(currentUserId.value);
-    },
-    {
-      flush: true,
-    });
+    watchEffect(
+      () => {
+        if (!currentUserId.value) return;
+        fetchPrivateTwitList(currentUserId.value);
+        fetchFollowers(currentUserId.value);
+      },
+      {
+        flush: true,
+      }
+    );
     return {
       followers: getFollowers(),
       handleOnUnfollowClick,
@@ -122,8 +125,8 @@ export default {
 
 .user-profile-page {
   display: grid;
-  grid-template-rows: [first] 35%[second] 65% [endline] auto;
-  grid-template-columns: [col-first] 60% [col-sec] 40% [col-endline] auto;
+  grid-template-rows: [first] 35%[second] 55% [endline] auto;
+  grid-template-columns: [col-first] 55% [col-sec] 45% [col-endline] auto;
   align-items: center;
   height: 100%;
   width: 100%;
@@ -152,7 +155,8 @@ export default {
     grid-area: 1 / col-sec / endline / col-endline;
 
     > div {
-      overflow-y: scroll;
+      width: 100% !important;
+      height: 100% !important;
     }
 
     .followed-users-list {
@@ -175,7 +179,9 @@ export default {
     > div {
       width: 100% !important;
       height: 100% !important;
-      overflow-x: scroll;
+      overflow-y: scroll;
+      padding-right: 20px;
+      box-sizing: content-box;
     }
 
     .twit-list-component {
