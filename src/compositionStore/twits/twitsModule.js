@@ -70,7 +70,6 @@ const actions = {
     getUsersTwitList: async (userId) => {
         try {
             const result = await twitsApi.fetchPersonalTwits(userId)
-            console.log(result)
             mutations.setUsersTwitList(result)
         } catch (e) {
             console.error(e)

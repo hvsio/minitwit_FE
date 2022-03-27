@@ -10,16 +10,18 @@
           <img class="picture" :src="require('../assets/svgs/unfollow.svg')" />
         </va-list-item-section>
         <va-list-item-section class="content">
-          <div class="header">
-            <va-list-item-label>
-              {{ item.name }}
-            </va-list-item-label>
-            <va-list-item-label>
-              {{ item.email }}
-            </va-list-item-label>
-          </div>
+          <router-link :to="{ name: 'MiniTwit User Page', params: { id: item.userId } }">
+            <div class="header">
+              <va-list-item-label>
+                {{ item.name }}
+              </va-list-item-label>
+              <va-list-item-label>
+                {{ item.email }}
+              </va-list-item-label>
+            </div>
+          </router-link>
         </va-list-item-section>
-        
+
         <va-list-item-section class="actionButtonsWrapper">
           <img
             class="unfollowBtn"
@@ -65,7 +67,6 @@ export default {
 @import "../_variables.scss";
 
 #FollowersComponent {
-
   .va-list {
     padding: 0 0 2rem 0 !important;
 

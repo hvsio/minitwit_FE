@@ -60,5 +60,9 @@ export default {
         }
     }
 
+    .submit-btn {
+        width: 75%;
+    }
+
 }
 </style>

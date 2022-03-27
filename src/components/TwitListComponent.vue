@@ -1,7 +1,7 @@
 <template>
   <div id="TwitListComponent" :style="{ height: height, width: width }">
     <va-list>
-      <va-list-label class="label" :color="labelColor">
+      <va-list-label v-if="!isPersonal" class="label" :color="labelColor">
         {{ label }}
       </va-list-label>
 
@@ -15,9 +15,20 @@
       >
         <va-list-item-section class="content">
           <div class="header">
-            <va-list-item-label>
-              {{ isPersonal ? user.userName : item.user.userName }} 👾
-            </va-list-item-label>
+            <router-link
+              v-if="!isPersonal"
+              :to="{
+                name: 'MiniTwit User Page',
+                params: { id: item.msg.authorId },
+              }"
+            >
+              <va-list-item-label>
+                {{ isPersonal ? user.userName : item.user.userName }} 👾
+              </va-list-item-label>
+            </router-link>
+            <va-list-item-label v-else>
+                {{ isPersonal ? user.userName : item.user.userName }} 👾
+              </va-list-item-label>
             <va-list-item-label>
               {{ isPersonal ? user.email : item.user.email }} 💬
             </va-list-item-label>
@@ -26,7 +37,7 @@
             {{ isPersonal ? item.text : item.msg.text }}
           </va-list-item-label>
           <va-list-item-label class="date" caption>
-            {{ isPersonal ? item.publishDate : item.msg.publishDate}}
+            {{ isPersonal ? item.publishDate : item.msg.publishDate }}
           </va-list-item-label>
         </va-list-item-section>
 
