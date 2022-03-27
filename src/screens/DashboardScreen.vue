@@ -54,7 +54,7 @@ export default {
     const twitsPaged = getTwitList();
 
     const handleOnTwitClick = (twit) => {
-      flagTwit(twit.messageId, twit.flagged);
+      flagTwit(twit.msg.messageId, twit.msg.flagged);
     };
 
     const handleOnFollowClick = (userId) => {

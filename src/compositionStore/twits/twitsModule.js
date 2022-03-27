@@ -40,30 +40,32 @@ const mutations = {
         ]
     },
 
-    updateTwit: (messageId, flagged) => {
-        const twitIndex = state.twitList.twits.findIndex(twitItem =>
-            twitItem.messageId == messageId
-        )
-        const newTwit = {
-            ...state.twitList.twits[twitIndex],
-            flagged
-        }
+    removeTwit: (messageId) => {
+        state.twitList.twits = [
+            ...state.twitList.twits.filter(twit => twit.msg.messageId !== messageId)
+        ]
 
-        state.twitList = [
-            ...state.twitList.twits.slice(0, twitIndex),
-            newTwit,
-            ...state.twitList.twits.slice(twitIndex + 1)
+        state.usersTwitList.twits = [
+            ...state.usersTwitList.twits.filter(twit => twit.messageId !== messageId)
         ]
     }
 }
 
 const actions = {
     getTwitList: async (page, pageSize) => {
-        try {
-            const result = await twitsApi.fetchTwits(page, pageSize)
-            mutations.setTwitList(result)
-        } catch (e) {
-            console.error(e)
+        let count = 0
+        let maxTries = 2
+        while (true) {
+            try {
+                const result = await twitsApi.fetchTwits(page - count, pageSize)
+                mutations.setTwitList(result)
+                break
+            } catch (e) {
+                console.error(e)
+                if (++count === maxTries) {
+                    throw e
+                }
+            }
         }
     },
 
@@ -82,7 +84,7 @@ const actions = {
                 MessageId: messageId,
                 FlagMessage: !flagged
             })
-            mutations.updateTwit(messageId, !flagged)
+            mutations.removeTwit(messageId)
         } catch (e) {
             console.error(e)
         }
