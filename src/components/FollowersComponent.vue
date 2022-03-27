@@ -22,9 +22,9 @@
           </router-link>
         </va-list-item-section>
 
-        <va-list-item-section class="actionButtonsWrapper">
+        <va-list-item-section v-if="showButton" class="actionButtonsWrapper">
           <img
-            class="unfollowBtn"
+            class="unfollow-btn"
             :src="require('../assets/svgs/unfollow.svg')"
             @click="handleItemClick(item)"
           />
@@ -44,6 +44,11 @@ export default {
       type: Array,
       required: true,
       default: [],
+    },
+    showButton: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   components: {},
@@ -67,8 +72,14 @@ export default {
 @import "../_variables.scss";
 
 #FollowersComponent {
+  
+  .unfollow-btn {
+    cursor: pointer;
+  }
   .va-list {
-    padding: 0 0 2rem 0 !important;
+    overflow-y: scroll;
+    padding: 20px;
+    box-sizing: content-box;
 
     .va-list-item {
       background-color: $twit-background;
@@ -81,7 +92,7 @@ export default {
 
         .va-list-item-section {
           &.content {
-            flex-basis: 66%;
+            flex-basis: 60%;
             text-align: left;
           }
 

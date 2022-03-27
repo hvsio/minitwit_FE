@@ -11,9 +11,9 @@ const mutations = {
     state.followers = followers;
   },
 
-  removeFollower: (userId) => {
+  removeFollower: (id) => {
     state.followers = [
-      ...state.followers.filter((followerItem) => followerItem.whoId != userId),
+      ...state.followers.filter((followerItem) => followerItem.id != id),
     ];
   },
 
@@ -32,10 +32,10 @@ const actions = {
     }
   },
 
-  unfollowUser: async (userId) => {
+  unfollowUser: async (id) => {
     try {
-      await followersApi.unfollowUser(userId);
-      mutations.removeFollower(userId);
+      await followersApi.unfollowUser(id);
+      mutations.removeFollower(id);
     } catch (e) {
       console.log(e);
     }
