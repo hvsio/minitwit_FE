@@ -157,6 +157,9 @@ export default {
     > div {
       width: 100% !important;
       height: 100% !important;
+      overflow-y: scroll;
+      padding-right: 20px;
+      box-sizing: content-box;
     }
 
     .followed-users-list {

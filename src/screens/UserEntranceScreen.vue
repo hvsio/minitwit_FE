@@ -22,11 +22,10 @@ export default {
 .user-entrance-page {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     height: 100%;
     width: 100%;
-    padding-bottom: 20%;
 
     [class$="-form"] {
     }
