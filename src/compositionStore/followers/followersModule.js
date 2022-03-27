@@ -1,4 +1,4 @@
-import { reactive, computed, readonly } from "vue";
+import { reactive, computed } from "vue";
 import followersApi from "@/api/followers/follower.js";
 import { getLoggedInUser } from "@/compositionStore/users/usersModule.js";
 

@@ -55,7 +55,7 @@ export default {
         async sendRequest(ifRegistrationForm) {
             const email = document.getElementById(`${this.formDefinition}-email`).value;
             const password = document.getElementById(`${this.formDefinition}-password`).value;
-            const userData = {
+            let userData = {
                 "Email": email,
                 "PwHash": password
             };

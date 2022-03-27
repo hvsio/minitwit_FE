@@ -17,8 +17,9 @@
 import AddTwitComponent from '@/components/AddTwitComponent.vue';
 import FollowersComponent from '@/components/FollowersComponent.vue';
 import TwitListComponent from "@/components/TwitListComponent.vue";
-import { useFollowers, useTwits, useUsers } from "@/compositionStore/index"
-import { useRouter } from 'vue-router';
+import { useFollowers, useTwits } from "@/compositionStore/index"
+import { useRoute } from 'vue-router';
+import { computed } from '@vue/runtime-core';
 
 export default {
     name: "UserProfileScreen",
@@ -29,11 +30,10 @@ export default {
         TwitListComponent
     },
     setup() {
-        const router = useRouter()
+        const route = useRoute()
+        const currentUserId = computed(() => route.params.id)
         const { getFollowers, fetchFollowers, unfollowUser } = useFollowers()
-        const { getPrivateTwitList, fetchPrivateTwitList, flagTwit } = useTwits()
-        const { getLoggedInUser } = useUsers()
-        const loggedInUser = getLoggedInUser()
+        const { getPrivateTwitList, getInspectedUser, fetchPrivateTwitList, flagTwit } = useTwits()
 
         const handleOnUnfollowClick = (item) => {
             unfollowUser(item.id)
@@ -42,15 +42,14 @@ export default {
             flagTwit(twit.messageId, twit.flagged)
         }
 
-        fetchPrivateTwitList(router.currentRoute.value.params.id)
-        fetchFollowers(router.currentRoute.value.params.id)
+        fetchPrivateTwitList(currentUserId.value)
+        fetchFollowers(currentUserId.value)
         return {
-            loggedInUser,
             followers: getFollowers(),
             handleOnUnfollowClick,
             handleOnTwitClick,
-            twitList: getPrivateTwitList().value.twits,
-            inspectedUser: getPrivateTwitList().value.user
+            twitList: getPrivateTwitList(),
+            inspectedUser: getInspectedUser()
         };
     }
 }

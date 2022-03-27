@@ -16,13 +16,13 @@ const state = reactive({
 const mutations = {
     setTwitList: (twitList) => {
         state.twitList = {
-            ...twitList,
+            ...twitList
         }
     },
 
     setUsersTwitList: (twitList) => {
         state.usersTwitList = {
-            ...twitList,
+            ...twitList
         }
     },
 
@@ -104,7 +104,8 @@ const actions = {
     }
 }
 
-const getPrivateTwitList = () => computed(() => state.usersTwitList)
+const getPrivateTwitList = () => computed(() => state.usersTwitList.twits)
+const getInspectedUser = () => computed(() => state.usersTwitList.user)
 const getTwitList = () => computed(() =>state.twitList)
 const fetchTwitList = (page, pageSize) => actions.getTwitList(page, pageSize)
 const fetchPrivateTwitList = (userId) => actions.getUsersTwitList(userId)
@@ -114,6 +115,7 @@ const addTwit = (twitData) => actions.addTwit(twitData)
 export {
     getTwitList,
     getPrivateTwitList,
+    getInspectedUser,
     fetchTwitList,
     fetchPrivateTwitList,
     addTwit,
@@ -123,6 +125,7 @@ export {
 export default {
     getTwitList,
     getPrivateTwitList,
+    getInspectedUser,
     fetchTwitList,
     fetchPrivateTwitList,
     addTwit,
