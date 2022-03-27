@@ -21,11 +21,12 @@ import Sidebar from "@/components/Sidebar.vue";
 import { useColors } from "vuestic-ui";
 import { computed } from "vue";
 import { initStore } from "@/compositionStore/index";
-import { getSidebarMinimized } from "@/compositionStore/sidebar/sidebarModule";
 import {
-  enforceLoggedUser,
-  getLoggedInUser,
-  logoutUser,
+  getSidebarItems,
+  getSidebarMinimized,
+} from "@/compositionStore/sidebar/sidebarModule";
+import {
+  enforceLoggedUser
 } from "@/compositionStore/users/usersModule";
 
 export default {
@@ -38,7 +39,6 @@ export default {
     initStore();
     const { getColors } = useColors();
     const colors = computed(() => getColors());
-    const loggedInUser = getLoggedInUser();
     const storedUserString = localStorage.getItem("loggedUser");
     const storedUser = JSON.parse(storedUserString);
 
@@ -46,46 +46,16 @@ export default {
       enforceLoggedUser(storedUser);
     }
 
-    const useSidebarItems = () => {
-      return [
-        {
-          title: "Timeline",
-          to: "/",
-          visibleToLoggedUser: "always",
-        },
-        {
-          title: "Login or register",
-          to: "/user-entrance",
-          visibleToLoggedUser: false,
-        },
-        {
-          title: "User profile/create twit",
-          to: `/user-profile/${loggedInUser.value.userId}`,
-          visibleToLoggedUser: true,
-        },
-        {
-          title: "Logout",
-          visibleToLoggedUser: true,
-          function: () => handleLogoutUser(),
-        },
-      ];
-    };
-    const getSidebarItems = computed(() => useSidebarItems());
-
     const handleSidebarItemClick = (item) => {
       if (!item.hasOwnProperty("function")) return;
 
       item.function(item);
     };
 
-    const handleLogoutUser = () => {
-      logoutUser();
-    };
-
     return {
       colors,
       isSidebarMinimized: getSidebarMinimized(),
-      sidebarItems: getSidebarItems.value,
+      sidebarItems: getSidebarItems(),
       handleSidebarItemClick,
     };
   },

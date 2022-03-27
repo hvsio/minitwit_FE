@@ -87,8 +87,10 @@ export default {
       else return loggedUser.value === val;
     };
 
-    const isSelectedSidebarItem = (sidebarItem) =>
-      sidebarItem == selectedSidebarItem.value;
+    const isSelectedSidebarItem = (sidebarItem) => {
+      if (sidebarItem == "/user-profile") return `${sidebarItem}/${loggedInUser.value.userId}` == selectedSidebarItem.value;
+      else return sidebarItem == selectedSidebarItem.value;
+    }
 
     const handleItemClick = (item) => {
       context.emit("onItemClick", item);
@@ -99,6 +101,7 @@ export default {
       handleItemClick,
       isSelectedSidebarItem,
       isVisible,
+      selectedSidebarItem
     };
   },
 };
