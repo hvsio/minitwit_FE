@@ -7,21 +7,29 @@ const state = reactive({
   sidebarItems: [
     {
       title: "Timeline",
+      icon: require("../../assets/svgs/dashboard_black.svg"),
+      iconSelected: require("../../assets/svgs/dashboard_white.svg"),
       to: "/",
       visibleToLoggedUser: "always",
     },
     {
       title: "Login or register",
+      icon: require("../../assets/svgs/login_black.svg"),
+      iconSelected: require("../../assets/svgs/login_white.svg"),
       to: "/user-entrance",
       visibleToLoggedUser: false,
     },
     {
       title: "User profile/create twit",
+      icon: require("../../assets/svgs/tweet_logo.svg"),
+      iconSelected: require("../../assets/svgs/tweet_logo.svg"),
       to: "/user-profile",
       visibleToLoggedUser: true,
     },
     {
       title: "Logout",
+      icon: require("../../assets/svgs/logout.svg"),
+      iconSelected: require("../../assets/svgs/logout.svg"),
       visibleToLoggedUser: true,
       function: () => logoutUser(),
     },
