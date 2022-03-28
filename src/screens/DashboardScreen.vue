@@ -59,9 +59,9 @@ export default {
       flagTwit(twit.messageId, twit.flagged);
     };
 
-    const handleOnFollowClick = (userId) => {
-      if (Object.keys(loggedInUser.value).length <= 0) return
-      followUser(userId, loggedInUser.value.userId);
+    const handleOnFollowClick = (user) => {
+     if (Object.keys(loggedInUser.value).length <= 0) return
+      followUser(user, loggedInUser.value.userId);
     };
 
     const handlePageChange = (page) => {

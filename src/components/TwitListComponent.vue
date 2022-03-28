@@ -67,7 +67,7 @@
             v-if="showFollowButton(item)"
             class="followBtn"
             :src="require('../assets/svgs/follow.svg')"
-            @click="followUser(isPersonal ? user.userId : item.msg.authorId)"
+            @click="followUser(isPersonal ? user : { ...item.user, userId: item.msg.authorId })"
           />
         </va-list-item-section>
       </va-list-item>
@@ -166,7 +166,7 @@ export default {
     };
 
     const handleItemClick = (item) => context.emit("onClick", item);
-    const followUser = (userId) => context.emit("onFollowClick", userId);
+    const followUser = (user) => context.emit("onFollowClick", user);
 
     return {
       handleItemClick,

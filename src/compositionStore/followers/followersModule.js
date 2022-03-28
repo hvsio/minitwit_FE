@@ -1,5 +1,5 @@
 import { reactive, computed } from "vue";
-import { fetchAvatarByEmail } from '../avatars/avatarsModule';
+import { fetchAvatarByEmail } from "../avatars/avatarsModule";
 import followersApi from "@/api/followers/follower.js";
 
 const state = reactive({
@@ -18,10 +18,7 @@ const mutations = {
   },
 
   addFollower: (followObj) => {
-    state.followers = [
-      ...state.followers,
-      followObj
-    ];
+    state.followers = [...state.followers, followObj];
   },
 };
 
@@ -45,20 +42,25 @@ const actions = {
     }
   },
 
-  followUser: async (userId, loggedInUserId) => {
-    const isAlreadyFollowed = state.followers.some((entity) => entity.whomId === userId);
+  followUser: async (user, loggedInUserId) => {
+    const isAlreadyFollowed = state.followers.some(
+      (entity) => entity.whomId === user.userId
+    );
 
     if (isAlreadyFollowed) return;
 
     try {
       const userData = {
         WhoId: loggedInUserId,
-        WhomId: userId,
+        WhomId: user.userId,
       };
       const res = await followersApi.followUser(userData);
-      console.log(res)
-      state.followers.forEach((item) => console.log(item))
-      mutations.addFollower(res);
+      mutations.addFollower({
+        ...res,
+        userId: user.userId,
+        name: user.name,
+        email: user.email
+      });
     } catch (e) {
       console.error(e);
     }
@@ -70,12 +72,7 @@ const fetchFollowers = (userId) => actions.fetchFollowers(userId);
 const unfollowUser = (userId) => actions.unfollowUser(userId);
 const followUser = (userId, loggedInUserId) => actions.followUser(userId, loggedInUserId);
 
-export {
-  getFollowers,
-  fetchFollowers,
-  unfollowUser,
-  followUser 
-};
+export { getFollowers, fetchFollowers, unfollowUser, followUser };
 
 export default {
   getFollowers,
