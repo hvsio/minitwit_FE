@@ -49,5 +49,8 @@ export default {
 @import '../_variables.scss';
 
 #Navbar {
+  .left {
+    margin-left: 10px;
+  }
 }
 </style>
