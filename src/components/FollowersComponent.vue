@@ -6,11 +6,11 @@
         v-for="(item, index) in followers"
         :key="index"
       >
-        <va-list-item-section class="actionButtonsWrapper">
-          <img class="picture" :src="require('../assets/svgs/unfollow.svg')" />
-        </va-list-item-section>
+        <avatar-component class="avatar" :image="avatars[item.email]" />
         <va-list-item-section class="content">
-          <router-link :to="{ name: 'MiniTwit User Page', params: { id: item.userId } }">
+          <router-link
+            :to="{ name: 'MiniTwit User Page', params: { id: item.userId } }"
+          >
             <div class="header">
               <va-list-item-label>
                 {{ item.name }}
@@ -36,6 +36,8 @@
 
 <script>
 import { computed } from "vue";
+import { useAvatars } from "@/compositionStore/index";
+import AvatarComponent from "@/components/AvatarComponent";
 
 export default {
   name: "FollowersComponent",
@@ -51,9 +53,12 @@ export default {
       default: true,
     },
   },
-  components: {},
+  components: {
+    AvatarComponent,
+  },
   emits: ["onClick"],
   setup(props, context) {
+    const { getAvatars } = useAvatars();
     const followers = computed(() => props.items);
     const handleItemClick = (item) => {
       context.emit("onClick", item);
@@ -61,6 +66,7 @@ export default {
 
     return {
       followers,
+      avatars: getAvatars(),
       handleItemClick,
     };
   },
@@ -72,7 +78,6 @@ export default {
 @import "../_variables.scss";
 
 #FollowersComponent {
-  
   .unfollow-btn {
     cursor: pointer;
   }
@@ -90,6 +95,9 @@ export default {
       > * {
         display: block !important;
 
+        .avatar {
+          padding-right: 12px;
+        }
         .va-list-item-section {
           &.content {
             flex-basis: 60%;

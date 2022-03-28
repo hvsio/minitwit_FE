@@ -13,6 +13,12 @@
           margin: itemMargin,
         }"
       >
+        <avatar-component
+          class="avatar"
+          :height="'75px'"
+          :width="'75px'"
+          :image="avatars[isPersonal ? user.email : item.user.email]"
+        />
         <va-list-item-section class="content">
           <div class="header">
             <router-link
@@ -70,7 +76,8 @@
 </template>
 
 <script>
-import { useFollowers, useUsers } from "@/compositionStore/index";
+import { useFollowers, useUsers, useAvatars } from "@/compositionStore/index";
+import AvatarComponent from "@/components/AvatarComponent";
 
 export default {
   name: "TwitListComponent",
@@ -131,11 +138,14 @@ export default {
       default: "12px",
     },
   },
-  components: {},
+  components: {
+    AvatarComponent,
+  },
   emits: ["onClick"],
   setup(props, context) {
     const { getFollowers } = useFollowers();
     const { getLoggedInUser } = useUsers();
+    const { getAvatars } = useAvatars();
     const loggedInUser = getLoggedInUser();
     const followers = getFollowers();
 
@@ -163,6 +173,7 @@ export default {
       loggedInUser,
       followUser,
       showFollowButton,
+      avatars: getAvatars(),
     };
   },
 };
@@ -187,9 +198,12 @@ export default {
       > * {
         display: block !important;
 
+        .avatar {
+          padding-right: 10px;
+        }
         .va-list-item-section {
           &.content {
-            flex-basis: 90%;
+            flex-basis: 70%;
             text-align: left;
           }
 
@@ -210,6 +224,7 @@ export default {
               cursor: pointer;
             }
           }
+
           .header {
             margin-bottom: 20px;
           }

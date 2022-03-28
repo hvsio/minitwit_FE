@@ -1,4 +1,5 @@
 import { reactive, computed } from "vue";
+import { fetchAvatarByEmail } from '../avatars/avatarsModule';
 import followersApi from "@/api/followers/follower.js";
 
 const state = reactive({
@@ -28,6 +29,7 @@ const actions = {
   fetchFollowers: async (userId) => {
     try {
       const result = await followersApi.followedUsers(userId);
+      result.forEach((item) => fetchAvatarByEmail(item.email));
       mutations.setFollowers(result.length === 0 ? [] : result);
     } catch (e) {
       console.log(e);

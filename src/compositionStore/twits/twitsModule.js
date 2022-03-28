@@ -1,4 +1,5 @@
 import { reactive, computed } from 'vue'
+import { fetchAvatarByEmail } from '../avatars/avatarsModule'
 import twitsApi from '@/api/twits/twits.js'
 
 const state = reactive({
@@ -58,6 +59,7 @@ const actions = {
         while (true) {
             try {
                 const result = await twitsApi.fetchTwits(page - count, pageSize)
+                result.twits.forEach(item => fetchAvatarByEmail(item.user.email));
                 mutations.setTwitList(result)
                 break
             } catch (e) {
@@ -72,6 +74,7 @@ const actions = {
     getUsersTwitList: async (userId) => {
         try {
             const result = await twitsApi.fetchPersonalTwits(userId)
+            fetchAvatarByEmail(result.user.email)
             mutations.setUsersTwitList(result)
         } catch (e) {
             console.error(e)
