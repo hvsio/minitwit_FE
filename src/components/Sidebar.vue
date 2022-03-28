@@ -14,7 +14,7 @@
             @click="handleItemClick(item)"
           >
             <va-sidebar-item-content>
-              <va-icon :name="item.icon" :color="iconColor" />
+              <img :src="isSelectedSidebarItem(item.to) ? item.iconSelected : item.icon" :style="{ height: iconSize, width: iconSize }" />
               <va-sidebar-item-title
                 v-if="!minimized"
                 :style="`height: ${itemTitleHeight}`"
@@ -52,6 +52,11 @@ export default {
       type: String,
       required: false,
       default: "#FFF",
+    },
+    iconSize: {
+      type: String,
+      required: false,
+      default: "20px",
     },
     width: {
       type: String,
